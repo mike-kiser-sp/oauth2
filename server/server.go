@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"net/url"
 	"strings"
@@ -26,7 +27,7 @@ func NewServer(cfg *Config, manager oauth2.Manager) *Server {
 	}
 
 	// default handler
-	srv.ClientInfoHandler = ClientBasicHandler
+	srv.ClientInfoHandler = ClientFormHandler
 
 	srv.UserAuthorizationHandler = func(w http.ResponseWriter, r *http.Request) (string, error) {
 		return "", errors.ErrAccessDenied
@@ -322,6 +323,8 @@ func (s *Server) ValidationTokenRequest(r *http.Request) (oauth2.GrantType, *oau
 		return "", nil, errors.ErrInvalidRequest
 	}
 
+	log.Println("hey were' in validateion token request!")
+
 	gt := oauth2.GrantType(r.FormValue("grant_type"))
 	if gt.String() == "" {
 		return "", nil, errors.ErrUnsupportedGrantType
@@ -366,6 +369,9 @@ func (s *Server) ValidationTokenRequest(r *http.Request) (oauth2.GrantType, *oau
 		tgr.UserID = userID
 	case oauth2.ClientCredentials:
 		tgr.Scope = r.FormValue("scope")
+		tgr.Issuer = "https://ssf.demohub.sailpointtechnologies.com/"
+		log.Println("inside validation token request. Scope is : ", tgr.Scope)
+		log.Println("inside validation token request. Issuer is : ", tgr.Issuer)
 	case oauth2.Refreshing:
 		tgr.Refresh = r.FormValue("refresh_token")
 		tgr.Scope = r.FormValue("scope")
@@ -425,6 +431,8 @@ func (s *Server) GetAccessToken(ctx context.Context, gt oauth2.GrantType, tgr *o
 				return nil, errors.ErrInvalidScope
 			}
 		}
+		log.Println("hey were' in GetAccess token and the tgr is :")
+		fmt.Printf("\n%+v\n", tgr)
 		return s.Manager.GenerateAccessToken(ctx, gt, tgr)
 	case oauth2.Refreshing:
 		// check scope
