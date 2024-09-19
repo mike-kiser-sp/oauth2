@@ -3,18 +3,21 @@ package generates
 import (
 	"context"
 	"encoding/base64"
+	"fmt"
+	"log"
 	"strings"
 	"time"
 
-	"github.com/mike-kiser-sp/oauth2"
-	"github.com/mike-kiser-sp/oauth2/errors"
 	"github.com/golang-jwt/jwt"
 	"github.com/google/uuid"
+	"github.com/mike-kiser-sp/oauth2"
+	"github.com/mike-kiser-sp/oauth2/errors"
 )
 
 // JWTAccessClaims jwt claims
 type JWTAccessClaims struct {
 	jwt.StandardClaims
+	Scope string `json:"scope"`
 }
 
 // Valid claims verification
@@ -26,11 +29,12 @@ func (a *JWTAccessClaims) Valid() error {
 }
 
 // NewJWTAccessGenerate create to generate the jwt access token instance
-func NewJWTAccessGenerate(kid string, key []byte, method jwt.SigningMethod) *JWTAccessGenerate {
+func NewJWTAccessGenerate(kid string, key []byte, method jwt.SigningMethod, issuer string) *JWTAccessGenerate {
 	return &JWTAccessGenerate{
 		SignedKeyID:  kid,
 		SignedKey:    key,
 		SignedMethod: method,
+		Issuer:       issuer,
 	}
 }
 
@@ -39,17 +43,28 @@ type JWTAccessGenerate struct {
 	SignedKeyID  string
 	SignedKey    []byte
 	SignedMethod jwt.SigningMethod
+	Issuer       string
 }
 
 // Token based on the UUID generated token
 func (a *JWTAccessGenerate) Token(ctx context.Context, data *oauth2.GenerateBasic, isGenRefresh bool) (string, string, error) {
+	Id, _ := uuid.NewRandom()
+	IdString := Id.String()
+	IdString = strings.Replace(IdString, "-", "", -1)
 	claims := &JWTAccessClaims{
 		StandardClaims: jwt.StandardClaims{
 			Audience:  data.Client.GetID(),
 			Subject:   data.UserID,
 			ExpiresAt: data.TokenInfo.GetAccessCreateAt().Add(data.TokenInfo.GetAccessExpiresIn()).Unix(),
+			Id:        IdString,
+			IssuedAt:  time.Now().Unix(),
+			Issuer:    a.Issuer,
 		},
+		Scope: data.TokenInfo.GetScope(),
 	}
+	log.Println("hey, we're in  jwt access gen!")
+	fmt.Printf("\n%+v\n", data)
+	fmt.Printf("\n%+v\n", claims)
 
 	token := jwt.NewWithClaims(a.SignedMethod, claims)
 	if a.SignedKeyID != "" {

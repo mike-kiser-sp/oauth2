@@ -2,11 +2,13 @@ package models
 
 // Client client model
 type Client struct {
-	ID     string
-	Secret string
-	Domain string
-	Public bool
-	UserID string
+	ID       string
+	Secret   string
+	Domain   string
+	Public   bool
+	UserID   string
+	Issuer   string
+	Audience string
 }
 
 // GetID client id
