@@ -1,4 +1,4 @@
-module github.com/mike-kiser-sp/oauth2/v4
+module github.com/mike-kiser-sp/oauth2
 
 go 1.13
 
