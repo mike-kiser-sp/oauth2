@@ -31,7 +31,7 @@
 ### Download and install
 
 ```bash
-go get -u -v github.com/go-oauth2/oauth2/v4/...
+go get -u -v github.com/mike-kiser-sp/oauth2/...
 ```
 
 ### Create file `server.go`
@@ -43,11 +43,11 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/go-oauth2/oauth2/v4/errors"
-	"github.com/go-oauth2/oauth2/v4/manage"
-	"github.com/go-oauth2/oauth2/v4/models"
-	"github.com/go-oauth2/oauth2/v4/server"
-	"github.com/go-oauth2/oauth2/v4/store"
+	"github.com/mike-kiser-sp/oauth2/errors"
+	"github.com/mike-kiser-sp/oauth2/manage"
+	"github.com/mike-kiser-sp/oauth2/models"
+	"github.com/mike-kiser-sp/oauth2/server"
+	"github.com/mike-kiser-sp/oauth2/store"
 )
 
 func main() {
@@ -142,7 +142,7 @@ Simulation examples of authorization code model, please check [example](/example
 ```go
 
 import (
-	"github.com/go-oauth2/oauth2/v4/generates"
+	"github.com/mike-kiser-sp/oauth2/generates"
 	"github.com/dgrijalva/jwt-go"
 )
 
@@ -193,9 +193,9 @@ Copyright (c) 2016 Lyric
 [build-status-image]: https://travis-ci.org/go-oauth2/oauth2.svg?branch=master
 [codecov-url]: https://codecov.io/gh/go-oauth2/oauth2
 [codecov-image]: https://codecov.io/gh/go-oauth2/oauth2/branch/master/graph/badge.svg
-[reportcard-url]: https://goreportcard.com/report/github.com/go-oauth2/oauth2/v4
-[reportcard-image]: https://goreportcard.com/badge/github.com/go-oauth2/oauth2/v4
-[godoc-url]: https://godoc.org/github.com/go-oauth2/oauth2/v4
-[godoc-image]: https://godoc.org/github.com/go-oauth2/oauth2/v4?status.svg
+[reportcard-url]: https://goreportcard.com/report/github.com/mike-kiser-sp/oauth2
+[reportcard-image]: https://goreportcard.com/badge/github.com/mike-kiser-sp/oauth2
+[godoc-url]: https://godoc.org/github.com/mike-kiser-sp/oauth2
+[godoc-image]: https://godoc.org/github.com/mike-kiser-sp/oauth2?status.svg
 [license-url]: http://opensource.org/licenses/MIT
 [license-image]: https://img.shields.io/npm/l/express.svg

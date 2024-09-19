@@ -5,9 +5,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/go-oauth2/oauth2/v4"
-	"github.com/go-oauth2/oauth2/v4/generates"
-	"github.com/go-oauth2/oauth2/v4/models"
+	"github.com/mike-kiser-sp/oauth2"
+	"github.com/mike-kiser-sp/oauth2/generates"
+	"github.com/mike-kiser-sp/oauth2/models"
 
 	. "github.com/smartystreets/goconvey/convey"
 )
